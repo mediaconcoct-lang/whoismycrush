@@ -1,0 +1,1901 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>How Well Do You Know Me? ❤️</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Dancing+Script:wght@600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-grad: linear-gradient(145deg, #fff5f7 0%, #ffe8ee 50%, #fdf2f8 100%);
+      --card-bg: rgba(255, 255, 255, 0.92);
+      --primary: #e11d48;
+      --primary-soft: #ffe4e6;
+      --primary-dark: #9f1239;
+      --text-main: #2d1b22;
+      --text-muted: #7a5c66;
+      --gold: #f5d061;
+      --gold-deep: #c59b27;
+      --success: #10b981;
+      --success-bg: #ecfdf5;
+      --danger: #ef4444;
+      --danger-bg: #fef2f2;
+      --shadow: 0 18px 45px rgba(159, 18, 57, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--bg-grad);
+      color: var(--text-main);
+      min-height: 100dvh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow-x: hidden;
+      transition: background 1.2s ease, color 1.2s ease;
+    }
+
+    body.dark-finale {
+      background: radial-gradient(circle at center, #1b141a 0%, #09070a 70%, #000000 100%);
+      color: #f8fafc;
+    }
+
+    /* Floating Background Hearts (Light Mode) */
+    .bg-hearts {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+      transition: opacity 1s ease;
+    }
+
+    body.dark-finale .bg-hearts {
+      opacity: 0;
+    }
+
+    .bg-heart {
+      position: absolute;
+      bottom: -40px;
+      font-size: 18px;
+      opacity: 0.18;
+      animation: floatUp linear infinite;
+    }
+
+    @keyframes floatUp {
+      0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+      15% { opacity: 0.22; }
+      85% { opacity: 0.22; }
+      100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
+    }
+
+    /* Golden Dust Canvas (Finale Mode) */
+    #goldCanvas, #confettiCanvas {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+    }
+    #confettiCanvas { z-index: 50; }
+
+    /* Main Container */
+    .app-container {
+      width: 100%;
+      max-width: 440px;
+      min-height: 100dvh;
+      padding: 18px 16px 80px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      z-index: 5;
+    }
+
+    /* Screens */
+    .screen {
+      display: none;
+      width: 100%;
+      animation: fadeSlideIn 0.45s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    .screen.active {
+      display: block;
+    }
+
+    @keyframes fadeSlideIn {
+      from { opacity: 0; transform: translateY(18px) scale(0.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* Card Style */
+    .card {
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.85);
+      border-radius: 28px;
+      padding: 26px 22px;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Welcome Screen */
+    .welcome-badge {
+      display: inline-block;
+      background: var(--primary-soft);
+      color: var(--primary);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: 999px;
+      margin-bottom: 16px;
+    }
+
+    .hero-heart {
+      width: 82px;
+      height: 82px;
+      margin: 6px auto 18px;
+      background: linear-gradient(135deg, #fb7185, #e11d48);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 38px;
+      box-shadow: 0 12px 28px rgba(225, 29, 72, 0.3);
+      cursor: pointer;
+      user-select: none;
+      animation: heartbeat 1.8s infinite;
+    }
+
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      15% { transform: scale(1.1); }
+      30% { transform: scale(1); }
+      45% { transform: scale(1.08); }
+      60% { transform: scale(1); }
+    }
+
+    .welcome-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 34px;
+      line-height: 1.15;
+      color: var(--text-main);
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    .welcome-sub {
+      font-size: 14px;
+      color: var(--text-muted);
+      text-align: center;
+      line-height: 1.6;
+      margin-bottom: 22px;
+    }
+
+    .rules-box {
+      background: #fff8fa;
+      border: 1px dashed #fda4af;
+      border-radius: 18px;
+      padding: 15px 16px;
+      margin-bottom: 24px;
+      font-size: 13px;
+      color: #6b4652;
+    }
+
+    .rules-box h4 {
+      font-size: 13px;
+      color: var(--primary);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .rules-box ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .rules-box li {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      line-height: 1.45;
+    }
+
+    /* Buttons */
+    .btn-primary {
+      width: 100%;
+      padding: 15px 20px;
+      border: none;
+      border-radius: 16px;
+      background: linear-gradient(135deg, #f43f5e, #be123c);
+      color: #fff;
+      font-family: 'Poppins', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 10px 24px rgba(225, 29, 72, 0.28);
+      transition: transform 0.18s ease, box-shadow 0.18s ease, opacity 0.2s ease;
+    }
+
+    .btn-primary:active {
+      transform: scale(0.97);
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    .btn-gold {
+      width: 100%;
+      padding: 15px 22px;
+      border: 1px solid rgba(245, 208, 97, 0.55);
+      border-radius: 999px;
+      background: linear-gradient(135deg, #f5d061, #c59b27);
+      color: #171005;
+      font-family: 'Poppins', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 10px 28px rgba(245, 208, 97, 0.25);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .btn-gold:active {
+      transform: scale(0.97);
+    }
+
+    /* Quiz Top Header */
+    .quiz-topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      gap: 8px;
+    }
+
+    .step-pill {
+      background: #fff;
+      color: var(--primary);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 999px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    .penalty-bar {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .penalty-chip {
+      background: #fff;
+      border: 1px solid #fecdd3;
+      color: var(--text-main);
+      font-size: 11px;
+      font-weight: 600;
+      padding: 5px 9px;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      transition: transform 0.25s ease;
+    }
+
+    .penalty-chip.bump {
+      transform: scale(1.22);
+      background: #ffe4e6;
+      border-color: #e11d48;
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 7px;
+      background: rgba(225, 29, 72, 0.12);
+      border-radius: 999px;
+      overflow: hidden;
+      margin-bottom: 16px;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #fb7185, #e11d48);
+      border-radius: 999px;
+      transition: width 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    /* Polaroid Frame */
+    .polaroid {
+      background: #ffffff;
+      padding: 10px 10px 14px;
+      border-radius: 18px;
+      box-shadow: 0 8px 22px rgba(0, 0, 0, 0.08);
+      border: 1px solid #fce7f3;
+      margin-bottom: 18px;
+      transform: rotate(-0.8deg);
+      transition: transform 0.3s ease;
+    }
+
+    .polaroid:hover {
+      transform: rotate(0deg);
+    }
+
+    .polaroid-img {
+      width: 100%;
+      height: 155px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .polaroid-img svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .polaroid-caption {
+      font-family: 'Dancing Script', cursive;
+      font-size: 18px;
+      color: #881337;
+      text-align: center;
+      margin-top: 8px;
+    }
+
+    /* Question & Options */
+    .question-text {
+      font-size: 17px;
+      font-weight: 600;
+      line-height: 1.45;
+      color: var(--text-main);
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .options-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .option-btn {
+      width: 100%;
+      text-align: left;
+      padding: 13px 16px;
+      border-radius: 14px;
+      border: 1.5px solid #f3d5de;
+      background: #ffffff;
+      color: var(--text-main);
+      font-family: 'Poppins', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: all 0.2s ease;
+    }
+
+    .option-btn:hover:not(:disabled) {
+      border-color: #fb7185;
+      background: #fff5f7;
+    }
+
+    .option-letter {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #fff1f2;
+      color: var(--primary);
+      font-size: 12px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .option-btn.wrong {
+      border-color: var(--danger);
+      background: var(--danger-bg);
+      color: #991b1b;
+      animation: shake 0.4s ease;
+    }
+
+    .option-btn.wrong .option-letter {
+      background: var(--danger);
+      color: #fff;
+    }
+
+    .option-btn.correct {
+      border-color: var(--success);
+      background: var(--success-bg);
+      color: #065f46;
+      font-weight: 600;
+    }
+
+    .option-btn.correct .option-letter {
+      background: var(--success);
+      color: #fff;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20% { transform: translateX(-7px); }
+      40% { transform: translateX(7px); }
+      60% { transform: translateX(-5px); }
+      80% { transform: translateX(5px); }
+    }
+
+    /* Feedback Banner */
+    .feedback-box {
+      min-height: 52px;
+      border-radius: 14px;
+      padding: 11px 14px;
+      font-size: 13px;
+      line-height: 1.45;
+      display: none;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+      animation: fadeSlideIn 0.25s ease;
+    }
+
+    .feedback-box.show {
+      display: flex;
+    }
+
+    .feedback-box.error {
+      background: #fff1f2;
+      border: 1px solid #fda4af;
+      color: #9f1239;
+    }
+
+    .feedback-box.success {
+      background: #ecfdf5;
+      border: 1px solid #6ee7b7;
+      color: #065f46;
+    }
+
+    /* Settlement Bill Screen */
+    .receipt {
+      background: #fffdf9;
+      border: 1px solid #f1e4d1;
+      border-radius: 22px;
+      padding: 24px 20px;
+      box-shadow: var(--shadow);
+      position: relative;
+    }
+
+    .receipt-header {
+      text-align: center;
+      border-bottom: 2px dashed #e5d5c0;
+      padding-bottom: 14px;
+      margin-bottom: 16px;
+    }
+
+    .receipt-header .stamp {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.6px;
+      text-transform: uppercase;
+      color: var(--primary);
+      border: 1.5px solid var(--primary);
+      padding: 3px 10px;
+      border-radius: 6px;
+      margin-bottom: 8px;
+    }
+
+    .receipt-header h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 28px;
+      color: var(--text-main);
+    }
+
+    .receipt-header p {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .bill-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px dotted #eadbc8;
+      font-size: 13.5px;
+    }
+
+    .bill-row:last-of-type {
+      border-bottom: none;
+    }
+
+    .bill-label {
+      color: #4a373d;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .bill-label small {
+      font-size: 11px;
+      color: #8f727b;
+    }
+
+    .bill-val {
+      font-weight: 700;
+      color: var(--primary);
+      background: #fff1f2;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 12.5px;
+      white-space: nowrap;
+    }
+
+    .bill-val.unlocked {
+      color: #047857;
+      background: #d1fae5;
+    }
+
+    .bill-total {
+      margin: 16px 0 20px;
+      padding: 14px;
+      background: #fff5f7;
+      border-radius: 14px;
+      text-align: center;
+      font-size: 13px;
+      color: #881337;
+      font-weight: 500;
+    }
+
+    /* ================= GRAND FINALE (4 STAGES) ================= */
+    .finale-stage {
+      display: none;
+      text-align: center;
+      padding: 12px 6px;
+      animation: finaleFade 0.9s ease forwards;
+    }
+
+    .finale-stage.active {
+      display: block;
+    }
+
+    @keyframes finaleFade {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Stage 1: Cinematic Intro */
+    .intro-lines {
+      min-height: 230px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 22px;
+      margin-bottom: 32px;
+    }
+
+    .intro-line {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 26px;
+      line-height: 1.4;
+      color: #f3e8d2;
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 1.1s ease, transform 1.1s ease;
+    }
+
+    .intro-line.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .intro-line.gold-accent {
+      color: var(--gold);
+      font-style: italic;
+      font-size: 29px;
+    }
+
+    /* Stage 2: Google Search Animation */
+    .search-wrapper {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      backdrop-filter: blur(14px);
+      border-radius: 24px;
+      padding: 24px 18px;
+      text-align: left;
+      margin-bottom: 24px;
+    }
+
+    .google-logo {
+      text-align: center;
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 18px;
+    }
+
+    .g-b { color: #4285f4; }
+    .g-r { color: #ea4335; }
+    .g-y { color: #fbbc05; }
+    .g-g { color: #34a853; }
+
+    .search-bar {
+      background: #ffffff;
+      color: #202124;
+      border-radius: 999px;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13.5px;
+      font-weight: 500;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+      min-height: 48px;
+    }
+
+    .cursor-blink {
+      display: inline-block;
+      width: 2px;
+      height: 16px;
+      background: #4285f4;
+      vertical-align: middle;
+      margin-left: 2px;
+      animation: blink 0.8s infinite;
+    }
+
+    @keyframes blink {
+      0%, 50% { opacity: 1; }
+      51%, 100% { opacity: 0; }
+    }
+
+    .search-result-card {
+      margin-top: 20px;
+      background: rgba(255, 255, 255, 0.09);
+      border: 1px solid rgba(245, 208, 97, 0.35);
+      border-radius: 18px;
+      padding: 18px;
+      opacity: 0;
+      transform: translateY(14px);
+      transition: all 0.8s ease;
+    }
+
+    .search-result-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .match-badge {
+      display: inline-block;
+      background: rgba(245, 208, 97, 0.18);
+      color: var(--gold);
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: 1.8px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      margin-bottom: 10px;
+    }
+
+    .result-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 12px;
+    }
+
+    .result-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      font-size: 13px;
+      color: #e2e8f0;
+    }
+
+    .result-meta strong {
+      color: var(--gold);
+      font-weight: 600;
+    }
+
+    /* Stage 3: Golden Identity Reveal */
+    .spotlight-box {
+      padding: 36px 14px;
+      position: relative;
+      margin-bottom: 26px;
+    }
+
+    .spotlight-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 260px;
+      height: 260px;
+      transform: translate(-50%, -50%);
+      background: radial-gradient(circle, rgba(245, 208, 97, 0.25) 0%, rgba(245, 208, 97, 0) 70%);
+      pointer-events: none;
+      animation: pulseGlow 3s ease-in-out infinite;
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.7; }
+      50% { transform: translate(-50%, -50%) scale(1.18); opacity: 1; }
+    }
+
+    .id-kicker {
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #cbd5e1;
+      margin-bottom: 22px;
+    }
+
+    .golden-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 38px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      line-height: 1.2;
+      background: linear-gradient(90deg, #bf953f, #fcf6ba, #f5d061, #fbf5b7, #aa771c);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shimmer 3.5s linear infinite;
+      margin-bottom: 18px;
+      text-shadow: 0 0 30px rgba(245, 208, 97, 0.2);
+    }
+
+    @keyframes shimmer {
+      to { background-position: 200% center; }
+    }
+
+    .id-sub {
+      font-family: 'Dancing Script', cursive;
+      font-size: 25px;
+      color: #fde68a;
+    }
+
+    /* Stage 4: 3D Wax-Seal Love Letter */
+    .envelope-prompt {
+      font-size: 13px;
+      letter-spacing: 1px;
+      color: #e2d5b5;
+      margin-bottom: 22px;
+    }
+
+    .envelope-container {
+      perspective: 1000px;
+      margin: 0 auto 24px;
+      width: 100%;
+      max-width: 340px;
+    }
+
+    .envelope-closed {
+      background: linear-gradient(145deg, #f8efe2, #ead8be);
+      border-radius: 16px;
+      height: 215px;
+      position: relative;
+      cursor: pointer;
+      box-shadow: 0 22px 50px rgba(0, 0, 0, 0.55);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      transition: transform 0.3s ease;
+    }
+
+    .envelope-closed:hover {
+      transform: translateY(-4px);
+    }
+
+    .envelope-flap {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 115px;
+      background: linear-gradient(180deg, #f3e5d0, #e2cca9);
+      clip-path: polygon(0 0, 50% 95%, 100% 0);
+      border-bottom: 1px solid rgba(139, 92, 46, 0.15);
+      transform-origin: top center;
+      transition: transform 0.7s ease;
+      z-index: 2;
+    }
+
+    .envelope-closed.opening .envelope-flap {
+      transform: rotateX(180deg);
+    }
+
+    .wax-seal {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, #dc2626, #991b1b 70%, #7f1d1d);
+      border: 3px solid rgba(254, 202, 202, 0.35);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.45);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: #fde68a;
+      z-index: 3;
+      animation: sealPulse 2s infinite;
+    }
+
+    @keyframes sealPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.07); }
+    }
+
+    .envelope-label {
+      position: absolute;
+      bottom: 18px;
+      font-family: 'Dancing Script', cursive;
+      font-size: 21px;
+      color: #6b4423;
+      z-index: 2;
+    }
+
+    .letter-paper {
+      display: none;
+      background: linear-gradient(180deg, #fffcf5, #faf1e0);
+      color: #2c1e16;
+      border-radius: 18px;
+      padding: 30px 24px;
+      text-align: left;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
+      border: 1px solid rgba(212, 175, 55, 0.45);
+      animation: unfoldLetter 0.85s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    .letter-paper.open {
+      display: block;
+    }
+
+    @keyframes unfoldLetter {
+      from { opacity: 0; transform: translateY(35px) scale(0.92); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .letter-greeting {
+      font-family: 'Dancing Script', cursive;
+      font-size: 30px;
+      color: #9f1239;
+      margin-bottom: 16px;
+    }
+
+    .letter-body p {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 20px;
+      line-height: 1.65;
+      color: #36251c;
+      margin-bottom: 14px;
+    }
+
+    .letter-highlight {
+      font-size: 23px !important;
+      font-weight: 700;
+      color: #9f1239 !important;
+      margin-top: 18px;
+    }
+
+    .letter-footer {
+      margin-top: 20px;
+      padding-top: 14px;
+      border-top: 1px dashed #d6c3a5;
+      font-size: 13px;
+      color: #7c5c43;
+      text-align: center;
+      font-style: italic;
+    }
+
+    .replay-btn {
+      margin-top: 20px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      color: #f8fafc;
+      padding: 11px 22px;
+      border-radius: 999px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    /* Floating Music Toggle Button */
+    #musicToggle {
+      position: fixed;
+      bottom: 18px;
+      right: 18px;
+      z-index: 9999;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(255, 255, 255, 0.45);
+      background: rgba(24, 15, 22, 0.72);
+      color: #fff;
+      font-size: 20px;
+      cursor: pointer;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.28);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.2s ease, background 0.3s ease;
+    }
+
+    #musicToggle:active {
+      transform: scale(0.92);
+    }
+
+    #musicToggle.playing {
+      border-color: rgba(245, 208, 97, 0.75);
+      animation: musicPulse 2.2s infinite;
+    }
+
+    @keyframes musicPulse {
+      0% { box-shadow: 0 0 0 0 rgba(244, 63, 94, 0.45); }
+      70% { box-shadow: 0 0 0 12px rgba(244, 63, 94, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(244, 63, 94, 0); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background Elements -->
+  <div class="bg-hearts" id="bgHearts"></div>
+  <canvas id="goldCanvas"></canvas>
+  <canvas id="confettiCanvas"></canvas>
+
+  <!-- Background Audio -->
+  <audio id="bgMusic" loop preload="auto">
+    <source src="music.mp3" type="audio/mpeg">
+  </audio>
+
+  <button id="musicToggle" onclick="toggleMusic()" aria-label="Toggle Background Music" title="Music On/Off">
+    🔇
+  </button>
+
+  <div class="app-container">
+
+    <!-- SCREEN 1: WELCOME -->
+    <section id="welcomeScreen" class="screen active">
+      <div class="card">
+        <div style="text-align:center;">
+          <span class="welcome-badge">A Little Memory Quiz</span>
+        </div>
+        <div class="hero-heart" id="secretHeart" title="❤️">❤️</div>
+        <h1 class="welcome-title">How Well Do You Know Me?</h1>
+        <p class="welcome-sub">
+          You asked me to reveal who that <em>one special person</em> is — creatively.
+          Solve these 15 little memories first to unlock the secret! ✨
+        </p>
+
+        <div class="rules-box">
+          <h4>📜 Cute Little Rules:</h4>
+          <ul>
+            <li>🔒 <span>Only the <strong>correct answer</strong> unlocks the next slide.</span></li>
+            <li>😘 <span>Wrong answers come with <strong>playful penalties</strong> (kisses, bike rides & treats!).</span></li>
+            <li>🎵 <span>Turn up your volume for a little background vibe.</span></li>
+          </ul>
+        </div>
+
+        <button class="btn-primary" onclick="startQuiz()">Let's Play & Reveal ✨</button>
+      </div>
+    </section>
+
+    <!-- SCREEN 2: QUIZ SLIDE -->
+    <section id="quizScreen" class="screen">
+      <div class="quiz-topbar">
+        <span class="step-pill" id="stepCounter">1 / 15</span>
+        <div class="penalty-bar">
+          <span class="penalty-chip" id="chipKiss" title="Kisses Owed">😘 <span id="cntKiss">0</span></span>
+          <span class="penalty-chip" id="chipBike" title="Long Bike Rides Owed">🏍️ <span id="cntBike">0</span></span>
+          <span class="penalty-chip" id="chipTreat" title="Treats Owed">🍫 <span id="cntTreat">0</span></span>
+        </div>
+      </div>
+
+      <div class="progress-track">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+
+      <div class="card">
+        <div class="polaroid">
+          <div class="polaroid-img" id="slideVisual"></div>
+          <div class="polaroid-caption" id="slideCaption">Memory #1</div>
+        </div>
+
+        <h2 class="question-text" id="questionText"></h2>
+        <div class="options-grid" id="optionsGrid"></div>
+
+        <div class="feedback-box" id="feedbackBox"></div>
+
+        <button class="btn-primary" id="nextBtn" onclick="nextQuestion()" disabled>
+          Next Memory →
+        </button>
+      </div>
+    </section>
+
+    <!-- SCREEN 3: OFFICIAL SETTLEMENT BILL -->
+    <section id="billScreen" class="screen">
+      <div class="receipt">
+        <div class="receipt-header">
+          <span class="stamp">Official Settlement Bill</span>
+          <h2>All 15 Memories Cleared! 🎉</h2>
+          <p>Before I reveal the mystery person, let's check what you owe me 😉</p>
+        </div>
+
+        <div class="bill-row">
+          <div class="bill-label">
+            <strong>Pending Kiss (Original Deal)</strong>
+            <small>Because I guessed your name right</small>
+          </div>
+          <span class="bill-val">1 Kiss 😘</span>
+        </div>
+
+        <div class="bill-row">
+          <div class="bill-label">
+            <strong>7-Day Wake-Up Challenge</strong>
+            <small>Early morning suffering completed</small>
+          </div>
+          <span class="bill-val unlocked">Phone # Unlocked 📱</span>
+        </div>
+
+        <div class="bill-row">
+          <div class="bill-label">
+            <strong>Cheek Kiss Penalties</strong>
+            <small>From quiz mistakes</small>
+          </div>
+          <span class="bill-val" id="billCheek">0</span>
+        </div>
+
+        <div class="bill-row">
+          <div class="bill-label">
+            <strong>Extra Kiss Penalties</strong>
+            <small>From quiz mistakes</small>
+          </div>
+          <span class="bill-val" id="billExtraKiss">0</span>
+        </div>
+
+        <div class="bill-row">
+          <div class="bill-label">
+            <strong>Long Bike Rides Owed</strong>
+            <small>On the Bullet Classic 350</small>
+          </div>
+          <span class="bill-val" id="billBike">0</span>
+        </div>
+
+        <div class="bill-row">
+          <div class="bill-label">
+            <strong>Next Treats By You</strong>
+            <small>Foodie tax applied</small>
+          </div>
+          <span class="bill-val" id="billTreat">0</span>
+        </div>
+
+        <div class="bill-total" id="billSummaryNote">
+          Screenshot this bill — no escaping the settlement! ❤️
+        </div>
+
+        <button class="btn-primary" onclick="startGrandFinale()">
+          Now... Reveal The Mystery Person ✨
+        </button>
+      </div>
+    </section>
+
+    <!-- SCREEN 4: 4-STAGE CINEMATIC GRAND FINALE -->
+    <section id="finaleScreen" class="screen">
+
+      <!-- STAGE 1: CINEMATIC BLACK & GOLD INTRO -->
+      <div id="finaleStage1" class="finale-stage">
+        <div class="intro-lines">
+          <p class="intro-line" id="intro1">You answered 15 questions.</p>
+          <p class="intro-line" id="intro2">You discovered 15 little memories.</p>
+          <p class="intro-line gold-accent" id="intro3">But there was only one answer I was waiting for.</p>
+        </div>
+        <button class="btn-gold" id="stage1NextBtn" style="opacity:0; transition:opacity 0.8s ease;" onclick="goToFinaleStage(2)">
+          See Who It Is →
+        </button>
+      </div>
+
+      <!-- STAGE 2: GOOGLE SEARCH ANIMATION -->
+      <div id="finaleStage2" class="finale-stage">
+        <div class="search-wrapper">
+          <div class="google-logo">
+            <span class="g-b">G</span><span class="g-r">o</span><span class="g-y">o</span><span class="g-b">g</span><span class="g-g">l</span><span class="g-r">e</span>
+          </div>
+          <div class="search-bar">
+            <span>🔍</span>
+            <div><span id="typedQuery"></span><span class="cursor-blink"></span></div>
+          </div>
+
+          <div class="search-result-card" id="searchResultCard">
+            <span class="match-badge">BEST MATCH FOUND</span>
+            <div class="result-name">Mariyam Binth Saheer</div>
+            <div class="result-meta">
+              <div><strong>Status:</strong> Unforgettable.</div>
+              <div><strong>Category:</strong> Someone Special.</div>
+              <div><strong>Location:</strong> Currently occupying someone's heart. ❤️</div>
+            </div>
+          </div>
+        </div>
+
+        <button class="btn-gold" id="stage2NextBtn" style="opacity:0; transition:opacity 0.8s ease;" onclick="goToFinaleStage(3)">
+          Identify Her ✨
+        </button>
+      </div>
+
+      <!-- STAGE 3: GOLDEN IDENTITY REVEAL -->
+      <div id="finaleStage3" class="finale-stage">
+        <div class="spotlight-box">
+          <div class="spotlight-glow"></div>
+          <p class="id-kicker">THE MYSTERY PERSON HAS BEEN IDENTIFIED.</p>
+          <h1 class="golden-name">MARIYAM BINTH SAHEER</h1>
+          <p class="id-sub">The girl behind all these smiles. ❤️</p>
+        </div>
+        <button class="btn-gold" onclick="goToFinaleStage(4)">
+          Open Your Letter 💌
+        </button>
+      </div>
+
+      <!-- STAGE 4: CINEMATIC 3D WAX-SEAL LOVE LETTER -->
+      <div id="finaleStage4" class="finale-stage">
+        <p class="envelope-prompt" id="envelopePrompt">Tap the wax seal to open your letter 💌</p>
+
+        <div class="envelope-container">
+          <div class="envelope-closed" id="envelopeClosed" onclick="openLoveLetter()">
+            <div class="envelope-flap"></div>
+            <div class="wax-seal">M</div>
+            <div class="envelope-label">For Mariyam ❤️</div>
+          </div>
+
+          <div class="letter-paper" id="letterPaper">
+            <div class="letter-greeting">Dear Mariyam,</div>
+            <div class="letter-body">
+              <p>You asked me who that person was.</p>
+              <p>I thought I would make you solve a few questions before revealing the answer.</p>
+              <p>Well, congratulations. You found her.</p>
+              <p class="letter-highlight">And that person is YOU. ❤️</p>
+            </div>
+            <div class="letter-footer">
+              Now don't forget my pending kiss & the settlement bill 😉✨
+            </div>
+          </div>
+        </div>
+
+        <button class="replay-btn" id="replayBtn" style="display:none;" onclick="replayFinale()">
+          ↻ Replay Reveal
+        </button>
+      </div>
+
+    </section>
+  </div>
+
+  <script>
+    // ================= BACKGROUND MUSIC LOGIC =================
+    const bgMusic = document.getElementById('bgMusic');
+    const musicBtn = document.getElementById('musicToggle');
+    let userMuted = false;
+    let musicStarted = false;
+    let fadeInterval = null;
+
+    function fadeVolume(targetVol, durationMs = 1500) {
+      if (fadeInterval) clearInterval(fadeInterval);
+      const startVol = bgMusic.volume;
+      const steps = 25;
+      const stepTime = durationMs / steps;
+      const delta = (targetVol - startVol) / steps;
+      let count = 0;
+
+      fadeInterval = setInterval(() => {
+        count++;
+        const nextVol = Math.min(1, Math.max(0, startVol + delta * count));
+        bgMusic.volume = nextVol;
+        if (count >= steps) {
+          clearInterval(fadeInterval);
+          bgMusic.volume = targetVol;
+        }
+      }, stepTime);
+    }
+
+    function playBgMusic(targetVolume = 0.48) {
+      if (userMuted) return;
+      if (!musicStarted || bgMusic.paused) {
+        bgMusic.volume = 0.05;
+        bgMusic.play().then(() => {
+          musicStarted = true;
+          musicBtn.textContent = '🎵';
+          musicBtn.classList.add('playing');
+          fadeVolume(targetVolume, 1600);
+        }).catch(() => {
+          // Mobile browser requires user tap; button remains available
+        });
+      } else {
+        fadeVolume(targetVolume, 1200);
+      }
+    }
+
+    function toggleMusic() {
+      if (bgMusic.paused) {
+        userMuted = false;
+        playBgMusic(document.body.classList.contains('dark-finale') ? 0.65 : 0.48);
+      } else {
+        bgMusic.pause();
+        userMuted = true;
+        musicBtn.textContent = '🔇';
+        musicBtn.classList.remove('playing');
+      }
+    }
+
+    // ================= FLOATING HEARTS (LIGHT MODE) =================
+    (function initHearts() {
+      const container = document.getElementById('bgHearts');
+      const icons = ['❤️', '✨', '🌸', '💕', '💫'];
+      for (let i = 0; i < 16; i++) {
+        const el = document.createElement('span');
+        el.className = 'bg-heart';
+        el.textContent = icons[i % icons.length];
+        el.style.left = Math.random() * 100 + '%';
+        el.style.fontSize = (14 + Math.random() * 14) + 'px';
+        el.style.animationDuration = (9 + Math.random() * 10) + 's';
+        el.style.animationDelay = (Math.random() * 8) + 's';
+        container.appendChild(el);
+      }
+    })();
+
+    // ================= CUSTOM SVG ARTWORK FOR ALL 15 SLIDES =================
+    const visuals = [
+      // 1. Dating App Match
+      `<svg viewBox="0 0 320 160" xmlns="http://www.w3.org/2000/svg">
+        <defs><linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#ffe4e6"/><stop offset="100%" stop-color="#fecdd3"/></linearGradient></defs>
+        <rect width="320" height="160" fill="url(#g1)"/>
+        <rect x="78" y="24" width="66" height="112" rx="12" fill="#fff" stroke="#f43f5e" stroke-width="2.5"/>
+        <rect x="176" y="24" width="66" height="112" rx="12" fill="#fff" stroke="#f43f5e" stroke-width="2.5"/>
+        <circle cx="111" cy="72" r="18" fill="#ffe4e6"/><text x="111" y="79" text-anchor="middle" font-size="20">🧑</text>
+        <circle cx="209" cy="72" r="18" fill="#ffe4e6"/><text x="209" y="79" text-anchor="middle" font-size="20">👩</text>
+        <path d="M160 56 C153 45, 138 50, 145 64 L160 80 L175 64 C182 50, 167 45, 160 56 Z" fill="#e11d48"/>
+        <text x="160" y="106" text-anchor="middle" font-family="Poppins" font-size="11" font-weight="700" fill="#9f1239">IT'S A MATCH!</text>
+      </svg>`,
+      // 2. First Message
+      `<svg viewBox="0 0 320 160" xmlns="http://www.w3.org/2000/svg">
+        <rect width="320" height="160" fill="#fdf2f8"/>
+        <rect x="46" y="34" width="150" height="42" rx="18" fill="#f43f5e"/>
+        <text x="121" y="60" text-anchor="middle" font-family="Poppins" font-size="14" font-weight="600" fill="#fff">Hey there! 👋✨</text>
+        <rect x="130" y="90" width="145" height="40" rx="18" fill="#ffffff" stroke="#fbcfe8" stroke-width="2"/>
+        <text x="202" y="115" text-anchor="middle" font-family="Poppins" font-size="13" fill="#831843">The very first ping 💬</text>
+      </svg>`,
+      // 3. Official Birthday
+      `<svg viewBox="0 0 320 160" xmlns="http://www.w3.org/2000/svg">
+        <rect width="320" height="160" fill="#fff7ed"/>
+        <rect x="108" y="82" width="104" height="50" rx="10" fill="#fb7185"/>
+        <rect x="108" y="82" width="104" height="18" rx="8" fill="#fff1f2"/>
+        <rect x="142" y="54" width="8" height="28" rx="3" fill="#f59e0b"/>
+        <rect x="170" y="54" width="8" height="28" rx="3" fill="#38bdf8"/>
+        <circle cx="146" cy="46" r="6" fill="#fde047"/>
+        <circle cx="174" cy="46" r="6" fill="#fde047"/>
+        <text x="160" y="118" text-anchor="middle" font-family="Poppins" font-size="12" font-weight="700" fill="#fff">BIRTHDAY 🎂</text>
+      </svg>`,
+      // 4. Cat Vava
+      `<svg viewBox="0 0 320 160" xmlns="http://www.w3.org/2000/svg">
+        <rect width="320" height="160" fill="#fef3c7"/>
+        <polygon points="122,64 132,32 154,54" fill="#fb923c"/>
+        <polygon points="198,64 188,32 166,54" fill="#fb923c"/>
+        <circle cx="160" cy="86" r="42" fill="#fdba74"/>
+        <circle cx="145" cy="80" r="5" fill="#1e293b"/>
+        <circle cx="175" cy="80" r="5" fill="#1e293b"/>
+        <polygon points="155,91 165,91 160,97" fill="#e11d48"/>
+        <path d="M152 102 Q160 109 168 102" fill="none" stroke="#7c2d12" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="108" y1="88" x2="132" y2="92" stroke="#9a3412" stroke-width="2"/>
+        <line x1="108" y1="98" x2="132" y2="98" stroke="#9a3412" stroke-width="2"/>
+        <line x1="212" y1="88" x2="188" y2="92" stroke="#9a3412" stroke-width="2"/>
+        <line x1="212" y1="98" x2="188" y2="98" stroke="#9a3412" stroke-width="2"/>
+        <text x="160" y="146" text-anchor="middle" font-family="Poppins" font-size="11" font-weight="600" fill="#9a3412">MEOW 🐾</text>
+      </svg>`,
+      // 5. Telegram Conversation
+      `<svg viewBox="0 0 320 160" xmlns="http://www.w3.org/2000/svg">
+        <rect width="320" height="160" fill="#e0f2fe"/>
+        <circle cx="160" cy="78" r="46" fill="#0ea5e9"/>
+        <polygon points="136,78 184,58 172,102 158,86 149,94 152,82" fill="#ffffff"/>
+        <text x="160" y="144" text-anchor="middle" font-family="Poppins" font-size="11" font-weight="600" fill="#0369a1">TELEGRAM CHAPTER ✈️</text>
+      </svg>`,
+      // 6. First Telegram Message
+      `<svg viewBox="0 0 320 160" xmlns="http://www.w3.org/2000/svg">
+        <rect width="320" height="160" fill="#ede9fe"/>
+        <rect x="64" y="42" width="192" height="68" rx="22" fill="#8b5cf6"/>
+        <text x="160" y="83" text-anchor="middle" font-family="Poppins" font-size="22" font-weight="700" fill="#fff">"... ??? ..."</text>
+        <text x="160" y="136" text-anchor="middle" font-family="Poppins" font-size="11" font-weight="600" fill="#5b21b6">SMOOTH OPENER 😏</text>
+      </svg>`,
+      // 7. Mobile Number
+      `<svg viewBox="0 0 320 160" xmlns="http://www.w3.org/2000/svg">
+        <rect width="320" height="160" fill="#fce7f3"/>
+        <rect x="120" y="20" width="80" height="122" rx="14" fill="#1e293b"/>
+        <rect x="127" y="32" width="66" height="94" rx="8" fill="#fff1f2"/>
+        <text x="160" y="72" text-anchor="middle" font-size="26">📞</text>
+        <text x="160" y="102" text-anchor="middle" font-family="Poppins" font-size="10" font-weight="700" fill="#be123c">HOTLINE</text>
+        <circle cx="160" cy="133" r="3" fill="#94a3b8"/>
+      </svg>`,
+      // 8. Telegram Contacts
+      `<svg viewBox="0 0 320 160" xmlns="http://www.w3.org/2000/svg">
+        <rect width="320" height="160" fill="#ecfeff"/>
+        <rect x="70" y="34" width="180" height="86" rx="16" fill="#fff" stroke="#06b6d4" stroke-width="2"/>
+        <circle cx="110" cy="77" r="20" fill="#cffafe"/>
+        <text x="110" y="84" text-anchor="middle" font-size="20">⭐</text>
+        <rect x="142" y="64" width="86" height="10" rx="5" fill="#0891b2"/>
+        <rect x="142" y="82" width="56" height="8" rx="4" fill="#a5f3fc"/>
+        <text x="160" y="142" text-anchor="middle" font-family="Poppins" font-size="11" font-weight="600" fill="#0e7490">VIP CONTACT LIST</text>
+      </svg>`,
+      // 9. First Chocolate
+      `<svg viewBox="0 0 320 160" xmlns="http://www.w3.org/2000/svg">
+        <rect width="320" height="160" fill="#fef2f2"/>
+        <rect x="66" y="42" width="188" height="72" rx="12" fill="#7c2d12"/>
+        <rect x="78" y="52" width="36" height="52" rx="5" fill="#9a3412"/>
+        <rect x="122" y="52" width="36" height="52" rx="5" fill="#9a3412"/>
+        <rect x="166" y="52" width="36" height="52" rx="5" fill="#9a3412"/>
+        <rect x="190" y="38" width="70" height="80" rx="8" fill="#dc2626"/>
+        <text x="225" y="83" text-anchor="middle" font-family="Poppins" font-size="12" font-weight="700" fill="#fde047">SWEET!</text>
+        <text x="160" y="140" text-anchor="middle" font-family="Poppins" font-size="11" font-weight="600" fill="#7c2d12">FIRST CHOCOLATE GIFT 🍫</text>
+      </svg>`,
+      // 10. Shirt Colour First Met
+      `<svg viewBox="0 0 320 160" xmlns="http://www.w3.org/2000/svg">
+        <rect width="320" height="160" fill="#eff6ff"/>
+        <path d="M122 36 L142 28 L160 44 L178 28 L198 36 L220 62 L202 78 L194 68 L194 130 L126 130 L126 68 L118 78 L100 62 Z" fill="#64748b" stroke="#1e3a8a" stroke-width="2.5"/>
+        <line x1="145" y1="36" x2="145" y2="130" stroke="#93c5fd" stroke-width="3" opacity="0.7"/>
+        <line x1="175" y1="36" x2="175" y2="130" stroke="#93c5fd" stroke-width="3" opacity="0.7"/>
+        <line x1="126" y1="74" x2="194" y2="74" stroke="#93c5fd" stroke-width="3" opacity="0.7"/>
+        <line x1="126" y1="102" x2="194" y2="102" stroke="#93c5fd" stroke-width="3" opacity="0.7"/>
+        <text x="160" y="149" text-anchor="middle" font-family="Poppins" font-size="11" font-weight="600" fill="#1e3a8a">FIRST DATE OUTFIT 👔</text>
+      </svg>`,
+      // 11. Playful Body Part (Cheeks)
+      `<svg viewBox="0 0 320 160" xmlns="http://www.w3.org/2000/svg">
+        <rect width="320" height="160" fill="#fff1f2"/>
+        <circle cx="160" cy="78" r="46" fill="#fde68a" stroke="#f59e0b" stroke-width="2"/>
+        <circle cx="144" cy="68" r="4.5" fill="#1f2937"/>
+        <circle cx="176" cy="68" r="4.5" fill="#1f2937"/>
+        <ellipse cx="132" cy="84" rx="11" ry="7" fill="#fb7185" opacity="0.75"/>
+        <ellipse cx="188" cy="84" rx="11" ry="7" fill="#fb7185" opacity="0.75"/>
+        <path d="M148 92 Q160 104 172 92" fill="none" stroke="#9f1239" stroke-width="3" stroke-linecap="round"/>
+        <text x="160" y="146" text-anchor="middle" font-family="Poppins" font-size="11" font-weight="600" fill="#be123c">SO CUTE! 🥺💕</text>
+      </svg>`,
+      // 12. Wake Up Challenge
+      `<svg viewBox="0 0 320 160" xmlns="http://www.w3.org/2000/svg">
+        <rect width="320" height="160" fill="#fefce8"/>
+        <circle cx="132" cy="40" r="14" fill="#f97316"/>
+        <circle cx="188" cy="40" r="14" fill="#f97316"/>
+        <circle cx="160" cy="82" r="42" fill="#ffffff" stroke="#ea580c" stroke-width="5"/>
+        <line x1="160" y1="82" x2="160" y2="56" stroke="#1e293b" stroke-width="3.5" stroke-linecap="round"/>
+        <line x1="160" y1="82" x2="180" y2="82" stroke="#e11d48" stroke-width="3" stroke-linecap="round"/>
+        <text x="160" y="144" text-anchor="middle" font-family="Poppins" font-size="11" font-weight="600" fill="#c2410c">7-DAY WAKE-UP CHALLENGE ⏰</text>
+      </svg>`,
+      // 13. Bike
+      `<svg viewBox="0 0 320 160" xmlns="http://www.w3.org/2000/svg">
+        <rect width="320" height="160" fill="#f1f5f9"/>
+        <circle cx="105" cy="102" r="26" fill="none" stroke="#1e293b" stroke-width="7"/>
+        <circle cx="215" cy="102" r="26" fill="none" stroke="#1e293b" stroke-width="7"/>
+        <path d="M105 102 L145 72 L188 72 L215 102 M145 72 L134 52 M188 72 L200 50 L214 50" fill="none" stroke="#b91c1c" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+        <rect x="135" y="64" width="38" height="12" rx="6" fill="#0f172a"/>
+        <text x="160" y="148" text-anchor="middle" font-family="Poppins" font-size="11" font-weight="600" fill="#334155">READY FOR A LONG RIDE? 🏍️</text>
+      </svg>`,
+      // 14. Height
+      `<svg viewBox="0 0 320 160" xmlns="http://www.w3.org/2000/svg">
+        <rect width="320" height="160" fill="#f0fdf4"/>
+        <rect x="134" y="20" width="52" height="118" rx="8" fill="#facc15" stroke="#ca8a04" stroke-width="2"/>
+        <line x1="134" y1="40" x2="154" y2="40" stroke="#854d0e" stroke-width="2.5"/>
+        <line x1="134" y1="60" x2="148" y2="60" stroke="#854d0e" stroke-width="2"/>
+        <line x1="134" y1="80" x2="156" y2="80" stroke="#854d0e" stroke-width="2.5"/>
+        <line x1="134" y1="100" x2="148" y2="100" stroke="#854d0e" stroke-width="2"/>
+        <line x1="134" y1="120" x2="154" y2="120" stroke="#854d0e" stroke-width="2.5"/>
+        <text x="160" y="152" text-anchor="middle" font-family="Poppins" font-size="11" font-weight="600" fill="#166534">HOW TALL AM I? 📏</text>
+      </svg>`,
+      // 15. Birthday Card ("I loaf You")
+      `<svg viewBox="0 0 320 160" xmlns="http://www.w3.org/2000/svg">
+        <rect width="320" height="160" fill="#fff7ed"/>
+        <path d="M116 74 C110 50, 134 38, 160 40 C186 38, 210 50, 204 74 L200 120 C200 126, 194 130, 188 130 L132 130 C126 130, 120 126, 120 120 Z" fill="#f59e0b" stroke="#b45309" stroke-width="3"/>
+        <path d="M124 76 C120 58, 138 48, 160 50 C182 48, 200 58, 196 76 L192 118 L128 118 Z" fill="#fef3c7"/>
+        <circle cx="146" cy="82" r="3.5" fill="#451a03"/>
+        <circle cx="174" cy="82" r="3.5" fill="#451a03"/>
+        <path d="M153 94 Q160 101 167 94" fill="none" stroke="#b45309" stroke-width="2.5" stroke-linecap="round"/>
+        <text x="160" y="149" text-anchor="middle" font-family="Poppins" font-size="11" font-weight="600" fill="#9a3412">THE BIRTHDAY CARD 🍞❤️</text>
+      </svg>`
+    ];
+
+    // ================= QUIZ DATA (15 QUESTIONS + PENALTIES) =================
+    const questions = [
+      {
+        q: "When did we first match on the dating app?",
+        options: ["10 November 2026", "12 November 2026", "14 November 2026", "15 November 2026"],
+        correct: 1,
+        caption: "Where our story began ✨",
+        penaltyType: "cheekKiss",
+        wrongMsg: "Ayyo, wrong answer! 😜 Penalty: You owe me +1 Kiss on the cheek!",
+        rightMsg: "Spot on! 12 November — best swipe ever ❤️"
+      },
+      {
+        q: "When did you first message me?",
+        options: ["12 November 2026", "13 November 2026", "14 November 2026", "15 November 2026"],
+        correct: 1,
+        caption: "That very first ping 💬",
+        penaltyType: "extraKiss",
+        wrongMsg: "Nope! Forgot so soon? Penalty: +1 Extra Kiss added to your bill 😘",
+        rightMsg: "Yesss! 13 November — made my whole day 😊"
+      },
+      {
+        q: "What is my official date of birth?",
+        options: ["10 May 1991", "10 June 1991", "15 May 1991", "10 May 1992"],
+        correct: 0,
+        caption: "Mark the calendar 🎂",
+        penaltyType: "extraKiss",
+        wrongMsg: "Wrong birthday?! That definitely costs you +1 Extra Kiss 😘",
+        rightMsg: "Correct! 10 May 1991 — good memory!"
+      },
+      {
+        q: "What's the name of my cat?",
+        options: ["Mittu", "Vava", "Chinnu", "Appu"],
+        correct: 1,
+        caption: "The cutest little boss 🐾",
+        penaltyType: "bikeRide",
+        wrongMsg: "Such an easy one! Missing Vava means you owe me a Long Bike Ride 🏍️",
+        rightMsg: "Vava approves! 🐱✨"
+      },
+      {
+        q: "When did we start talking on Telegram?",
+        options: ["12 November 2026", "13 November 2026", "14 November 2026", "15 November 2026"],
+        correct: 2,
+        caption: "Leveling up the chats ✈️",
+        penaltyType: "bikeRide",
+        wrongMsg: "Oops, wrong date! Penalty: You have to come on a Long Bike Ride with me 🏍️",
+        rightMsg: "14 November! Non-stop chats ever since 💫"
+      },
+      {
+        q: "What was my first message to you on Telegram?",
+        options: ["Hello darling", "Hey bbz", "Hi sweetheart", "Hey beautiful"],
+        correct: 1,
+        caption: "Iconic opening line 😏",
+        penaltyType: "treat",
+        wrongMsg: "Nope! Wrong guess — the next treat is officially on you 🍫",
+        rightMsg: "Haha yes — 'Hey bbz'! Smooth, right? 😉"
+      },
+      {
+        q: "What's my mobile number?",
+        options: ["8848265090", "9848265090", "8848265091", "8848265099"],
+        correct: 0,
+        caption: "Save it by heart 📱",
+        penaltyType: "treat",
+        wrongMsg: "Wrong number! That's a +1 Treat penalty — next café bill is yours ☕",
+        rightMsg: "Correct! Now waiting for yours after the 7-day challenge 😉"
+      },
+      {
+        q: "How many contacts are there in my Telegram?",
+        options: ["1", "10", "25", "50"],
+        correct: 0,
+        caption: "Exclusive VIP list ⭐",
+        penaltyType: "bikeRide",
+        wrongMsg: "Easy question! It's ONLY 1 (you!). Penalty: Long Bike Ride 🏍️",
+        rightMsg: "Just 1 — and you already know who that is ❤️"
+      },
+      {
+        q: "Which chocolate did I gift you first?",
+        options: ["Dairy Milk Silk", "KitKat Premium Delights Hazelnut", "Ferrero Rocher", "Toblerone"],
+        correct: 1,
+        caption: "Way to a foodie's heart 🍫",
+        penaltyType: "bikeRide",
+        wrongMsg: "A chocolate lover forgetting this?! Easy one missed — Long Bike Ride penalty 🏍️",
+        rightMsg: "KitKat Premium Delights Hazelnut! Instant impression 😎"
+      },
+      {
+        q: "What was my shirt colour when we first met?",
+        options: ["Black and White Checks", "Blue and Grey Check", "Blue and White Stripes", "Grey and Black"],
+        correct: 1,
+        caption: "First date memory 👔",
+        penaltyType: "treat",
+        wrongMsg: "You weren't looking at my shirt! Penalty: Next treat is by you 🍔",
+        rightMsg: "Blue and Grey Check! Look at that attention to detail 😍"
+      },
+      {
+        q: "Which part of your body do I always playfully talk about?",
+        options: ["Eyes", "Nose", "Cheeks", "Lips"],
+        correct: 2,
+        caption: "My favourite tease 🥺",
+        penaltyType: "cheekKiss",
+        wrongMsg: "Come on, you know this! Penalty: +1 Kiss on those cheeks 😘",
+        rightMsg: "Cheeks! Always and forever cute 😊❤️"
+      },
+      {
+        q: "When did I start the wake up challenge?",
+        options: ["21 November 2026", "22 November 2026", "23 November 2026", "24 November 2026"],
+        correct: 2,
+        caption: "Fighting my morning laziness ⏰",
+        penaltyType: "treat",
+        wrongMsg: "Forgetting my early morning sacrifice?! Next treat is on you 🍰",
+        rightMsg: "23 November 2026! Only for you I'd wake up early 😅"
+      },
+      {
+        q: "Which bike do I own?",
+        options: ["Pulsar", "Bullet Classic 350", "Honda Hness", "Yamaha FZ"],
+        correct: 1,
+        caption: "Our ride partner 🏍️",
+        penaltyType: "bikeRide",
+        wrongMsg: "Such an easy one! Clearly you need a Long Bike Ride on my Bullet Classic 350 🏍️",
+        rightMsg: "Bullet Classic 350! Next ride with you on the back 😉"
+      },
+      {
+        q: "What is my height?",
+        options: ["175 cm", "178 cm", "180 cm", "182 cm"],
+        correct: 1,
+        caption: "Tall enough? 📏",
+        penaltyType: "treat",
+        wrongMsg: "Close, maybe! Still wrong — next treat is on you 🍦",
+        rightMsg: "178 cm! Nailed it 🎯"
+      },
+      {
+        q: "What was printed on the birthday greeting card I gave you?",
+        options: ["I Love You", "I loaf You", "You Are Special", "Lots of Love"],
+        correct: 1,
+        caption: "The final memory 🍞❤️",
+        penaltyType: "extraKiss",
+        wrongMsg: "Not a spelling mistake — it was 'I loaf You'! Penalty: +1 Extra Kiss 😘",
+        rightMsg: "'I loaf You' 🍞❤️ — You cleared all 15 memories!"
+      }
+    ];
+
+    // ================= QUIZ STATE =================
+    let currentIdx = 0;
+    let solvedCurrent = false;
+    const penalties = {
+      cheekKiss: 0,
+      extraKiss: 0,
+      bikeRide: 0,
+      treat: 0
+    };
+
+    function showScreen(id) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function startQuiz() {
+      playBgMusic(0.48);
+      currentIdx = 0;
+      renderQuestion();
+      showScreen('quizScreen');
+    }
+
+    function updatePenaltyChips(changedType) {
+      document.getElementById('cntKiss').textContent = penalties.cheekKiss + penalties.extraKiss;
+      document.getElementById('cntBike').textContent = penalties.bikeRide;
+      document.getElementById('cntTreat').textContent = penalties.treat;
+
+      const chipId = (changedType === 'cheekKiss' || changedType === 'extraKiss')
+        ? 'chipKiss'
+        : changedType === 'bikeRide' ? 'chipBike' : 'chipTreat';
+
+      const chip = document.getElementById(chipId);
+      chip.classList.add('bump');
+      setTimeout(() => chip.classList.remove('bump'), 350);
+    }
+
+    function renderQuestion() {
+      solvedCurrent = false;
+      const item = questions[currentIdx];
+
+      document.getElementById('stepCounter').textContent = `${currentIdx + 1} / ${questions.length}`;
+      document.getElementById('progressFill').style.width = `${(currentIdx / questions.length) * 100}%`;
+      document.getElementById('slideVisual').innerHTML = visuals[currentIdx];
+      document.getElementById('slideCaption').textContent = item.caption;
+      document.getElementById('questionText').textContent = item.q;
+
+      const fb = document.getElementById('feedbackBox');
+      fb.className = 'feedback-box';
+      fb.textContent = '';
+
+      const nextBtn = document.getElementById('nextBtn');
+      nextBtn.disabled = true;
+      nextBtn.textContent = currentIdx === questions.length - 1
+        ? "See Official Settlement Bill 🧾"
+        : "Next Memory →";
+
+      const grid = document.getElementById('optionsGrid');
+      grid.innerHTML = '';
+      const letters = ['A', 'B', 'C', 'D'];
+
+      item.options.forEach((optText, idx) => {
+        const btn = document.createElement('button');
+        btn.className = 'option-btn';
+        btn.innerHTML = `<span class="option-letter">${letters[idx]}</span><span>${optText}</span>`;
+        btn.onclick = () => handleAnswer(idx, btn);
+        grid.appendChild(btn);
+      });
+    }
+
+    function handleAnswer(selectedIdx, btn) {
+      if (solvedCurrent) return;
+      const item = questions[currentIdx];
+      const fb = document.getElementById('feedbackBox');
+
+      if (selectedIdx === item.correct) {
+        solvedCurrent = true;
+        btn.classList.add('correct');
+        document.querySelectorAll('.option-btn').forEach(b => b.disabled = true);
+
+        fb.className = 'feedback-box success show';
+        fb.innerHTML = `<span>✅</span><span>${item.rightMsg}</span>`;
+
+        document.getElementById('progressFill').style.width = `${((currentIdx + 1) / questions.length) * 100}%`;
+        document.getElementById('nextBtn').disabled = false;
+      } else {
+        if (!btn.classList.contains('wrong')) {
+          btn.classList.add('wrong');
+          btn.disabled = true;
+          penalties[item.penaltyType]++;
+          updatePenaltyChips(item.penaltyType);
+        }
+        fb.className = 'feedback-box error show';
+        fb.innerHTML = `<span>😜</span><span>${item.wrongMsg}</span>`;
+      }
+    }
+
+    function nextQuestion() {
+      if (!solvedCurrent) return;
+      if (currentIdx < questions.length - 1) {
+        currentIdx++;
+        renderQuestion();
+      } else {
+        openSettlementBill();
+      }
+    }
+
+    function openSettlementBill() {
+      document.getElementById('billCheek').textContent = `${penalties.cheekKiss} Cheek Kiss${penalties.cheekKiss === 1 ? '' : 'es'} 😘`;
+      document.getElementById('billExtraKiss').textContent = `${penalties.extraKiss} Extra Kiss${penalties.extraKiss === 1 ? '' : 'es'} 😘`;
+      document.getElementById('billBike').textContent = `${penalties.bikeRide} Long Ride${penalties.bikeRide === 1 ? '' : 's'} 🏍️`;
+      document.getElementById('billTreat').textContent = `${penalties.treat} Treat${penalties.treat === 1 ? '' : 's'} 🍫`;
+
+      const totalMistakes = penalties.cheekKiss + penalties.extraKiss + penalties.bikeRide + penalties.treat;
+      const summaryEl = document.getElementById('billSummaryNote');
+      if (totalMistakes === 0) {
+        summaryEl.textContent = "Zero mistakes?! Impressive! Still, that 1 original pending kiss is non-negotiable 😉❤️";
+      } else {
+        summaryEl.textContent = `Total ${totalMistakes} playful penalties + 1 original pending kiss! Screenshot this bill — no escaping 😉❤️`;
+      }
+
+      showScreen('billScreen');
+    }
+
+    // ================= GRAND FINALE (4 STAGES) =================
+    let typingTimer = null;
+    let goldAnimRunning = false;
+
+    function startGrandFinale() {
+      document.body.classList.add('dark-finale');
+      playBgMusic(0.65); // Gently swell music for the cinematic reveal
+      startGoldParticles();
+      showScreen('finaleScreen');
+      goToFinaleStage(1);
+    }
+
+    function goToFinaleStage(stageNum) {
+      document.querySelectorAll('.finale-stage').forEach(s => s.classList.remove('active'));
+      document.getElementById(`finaleStage${stageNum}`).classList.add('active');
+
+      if (stageNum === 1) {
+        runStage1Intro();
+      } else if (stageNum === 2) {
+        runStage2Search();
+      } else if (stageNum === 3) {
+        launchConfetti(45);
+      } else if (stageNum === 4) {
+        resetEnvelope();
+      }
+    }
+
+    function runStage1Intro() {
+      const l1 = document.getElementById('intro1');
+      const l2 = document.getElementById('intro2');
+      const l3 = document.getElementById('intro3');
+      const btn = document.getElementById('stage1NextBtn');
+
+      [l1, l2, l3].forEach(el => el.classList.remove('visible'));
+      btn.style.opacity = '0';
+
+      setTimeout(() => l1.classList.add('visible'), 350);
+      setTimeout(() => l2.classList.add('visible'), 1600);
+      setTimeout(() => l3.classList.add('visible'), 2900);
+      setTimeout(() => { btn.style.opacity = '1'; }, 4000);
+    }
+
+    function runStage2Search() {
+      if (typingTimer) clearInterval(typingTimer);
+      const queryText = "Who is the girl I can't stop thinking about?";
+      const targetEl = document.getElementById('typedQuery');
+      const card = document.getElementById('searchResultCard');
+      const btn = document.getElementById('stage2NextBtn');
+
+      targetEl.textContent = '';
+      card.classList.remove('visible');
+      btn.style.opacity = '0';
+
+      let i = 0;
+      typingTimer = setInterval(() => {
+        targetEl.textContent += queryText.charAt(i);
+        i++;
+        if (i >= queryText.length) {
+          clearInterval(typingTimer);
+          setTimeout(() => card.classList.add('visible'), 550);
+          setTimeout(() => { btn.style.opacity = '1'; }, 1400);
+        }
+      }, 65);
+    }
+
+    function resetEnvelope() {
+      const closed = document.getElementById('envelopeClosed');
+      const letter = document.getElementById('letterPaper');
+      const prompt = document.getElementById('envelopePrompt');
+      const replay = document.getElementById('replayBtn');
+
+      closed.style.display = 'flex';
+      closed.classList.remove('opening');
+      letter.classList.remove('open');
+      prompt.style.display = 'block';
+      replay.style.display = 'none';
+    }
+
+    function openLoveLetter() {
+      const closed = document.getElementById('envelopeClosed');
+      const letter = document.getElementById('letterPaper');
+      const prompt = document.getElementById('envelopePrompt');
+      const replay = document.getElementById('replayBtn');
+
+      closed.classList.add('opening');
+      setTimeout(() => {
+        closed.style.display = 'none';
+        prompt.style.display = 'none';
+        letter.classList.add('open');
+        replay.style.display = 'inline-block';
+        launchConfetti(110);
+      }, 520);
+    }
+
+    function replayFinale() {
+      goToFinaleStage(1);
+    }
+
+    // ================= SECRET CREATOR SHORTCUT (5 TAPS ON HEART) =================
+    let secretTaps = 0;
+    let secretTapTimer = null;
+    document.getElementById('secretHeart').addEventListener('click', () => {
+      secretTaps++;
+      clearTimeout(secretTapTimer);
+      if (secretTaps >= 5) {
+        secretTaps = 0;
+        startGrandFinale();
+      } else {
+        secretTapTimer = setTimeout(() => { secretTaps = 0; }, 1200);
+      }
+    });
+
+    // ================= GOLDEN DUST PARTICLES (FINALE BG) =================
+    function startGoldParticles() {
+      if (goldAnimRunning) return;
+      goldAnimRunning = true;
+
+      const canvas = document.getElementById('goldCanvas');
+      const ctx = canvas.getContext('2d');
+      let w = canvas.width = window.innerWidth;
+      let h = canvas.height = window.innerHeight;
+
+      window.addEventListener('resize', () => {
+        w = canvas.width = window.innerWidth;
+        h = canvas.height = window.innerHeight;
+      });
+
+      const particles = Array.from({ length: 55 }, () => ({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        r: Math.random() * 2.2 + 0.6,
+        vx: (Math.random() - 0.5) * 0.35,
+        vy: -Math.random() * 0.5 - 0.15,
+        alpha: Math.random() * 0.65 + 0.2
+      }));
+
+      function draw() {
+        ctx.clearRect(0, 0, w, h);
+        if (document.body.classList.contains('dark-finale')) {
+          particles.forEach(p => {
+            p.x += p.vx;
+            p.y += p.vy;
+            if (p.y < -10) { p.y = h + 10; p.x = Math.random() * w; }
+            if (p.x < -10) p.x = w + 10;
+            if (p.x > w + 10) p.x = -10;
+
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(245, 208, 97, ${p.alpha})`;
+            ctx.fill();
+          });
+        }
+        requestAnimationFrame(draw);
+      }
+      draw();
+    }
+
+    // ================= HEART & GOLD CONFETTI SHOWER =================
+    function launchConfetti(count = 80) {
+      const canvas = document.getElementById('confettiCanvas');
+      const ctx = canvas.getContext('2d');
+      const w = canvas.width = window.innerWidth;
+      const h = canvas.height = window.innerHeight;
+
+      const colors = ['#f5d061', '#fb7185', '#e11d48', '#fde68a', '#ffffff'];
+      const pieces = Array.from({ length: count }, () => ({
+        x: Math.random() * w,
+        y: -20 - Math.random() * 140,
+        size: Math.random() * 7 + 5,
+        vx: (Math.random() - 0.5) * 3.2,
+        vy: Math.random() * 3.5 + 2.2,
+        rot: Math.random() * Math.PI * 2,
+        vrot: (Math.random() - 0.5) * 0.15,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        isHeart: Math.random() > 0.55
+      }));
+
+      let frames = 0;
+      function animate() {
+        ctx.clearRect(0, 0, w, h);
+        frames++;
+        let alive = false;
+
+        pieces.forEach(p => {
+          p.x += p.vx;
+          p.y += p.vy;
+          p.rot += p.vrot;
+          if (p.y < h + 30) alive = true;
+
+          ctx.save();
+          ctx.translate(p.x, p.y);
+          ctx.rotate(p.rot);
+          ctx.fillStyle = p.color;
+
+          if (p.isHeart) {
+            ctx.font = `${p.size + 6}px serif`;
+            ctx.fillText('❤️', -p.size / 2, p.size / 2);
+          } else {
+            ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 0.65);
+          }
+          ctx.restore();
+        });
+
+        if (alive && frames < 260) {
+          requestAnimationFrame(animate);
+        } else {
+          ctx.clearRect(0, 0, w, h);
+        }
+      }
+      animate();
+    }
+  </script>
+</body>
+</html>
