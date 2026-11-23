@@ -39,7 +39,7 @@
       min-height: 100dvh;
       display: flex;
       justify-content: center;
-      align-items: center;
+      align-items: flex-start;
       overflow-x: hidden;
       transition: background 1.2s ease, color 1.2s ease;
     }
@@ -78,7 +78,7 @@
       100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
     }
 
-    /* Golden Dust Canvas (Finale Mode) */
+    /* Golden Dust & Confetti Canvases */
     #goldCanvas, #confettiCanvas {
       position: fixed;
       inset: 0;
@@ -92,7 +92,7 @@
       width: 100%;
       max-width: 440px;
       min-height: 100dvh;
-      padding: 18px 16px 80px;
+      padding: 20px 16px 88px;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -525,6 +525,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 10px;
       padding: 10px 0;
       border-bottom: 1px dotted #eadbc8;
       font-size: 13.5px;
@@ -543,6 +544,7 @@
     .bill-label small {
       font-size: 11px;
       color: #8f727b;
+      line-height: 1.35;
     }
 
     .bill-val {
@@ -551,22 +553,25 @@
       background: #fff1f2;
       padding: 4px 10px;
       border-radius: 999px;
-      font-size: 12.5px;
+      font-size: 12px;
       white-space: nowrap;
+      flex-shrink: 0;
     }
 
-    .bill-val.unlocked {
-      color: #047857;
-      background: #d1fae5;
+    .bill-val.ongoing {
+      color: #b45309;
+      background: #fef3c7;
     }
 
     .bill-total {
       margin: 16px 0 20px;
       padding: 14px;
       background: #fff5f7;
+      border: 1px solid #fecdd3;
       border-radius: 14px;
       text-align: center;
-      font-size: 13px;
+      font-size: 12.8px;
+      line-height: 1.55;
       color: #881337;
       font-weight: 500;
     }
@@ -575,7 +580,7 @@
     .finale-stage {
       display: none;
       text-align: center;
-      padding: 12px 6px;
+      padding: 12px 4px;
       animation: finaleFade 0.9s ease forwards;
     }
 
@@ -778,7 +783,7 @@
       color: #fde68a;
     }
 
-    /* Stage 4: 3D Wax-Seal Love Letter */
+    /* Stage 4: 3D Wax-Seal Love Letter + Lily Bouquet */
     .envelope-prompt {
       font-size: 13px;
       letter-spacing: 1px;
@@ -788,9 +793,9 @@
 
     .envelope-container {
       perspective: 1000px;
-      margin: 0 auto 24px;
+      margin: 0 auto 20px;
       width: 100%;
-      max-width: 340px;
+      max-width: 375px;
     }
 
     .envelope-closed {
@@ -866,7 +871,7 @@
       background: linear-gradient(180deg, #fffcf5, #faf1e0);
       color: #2c1e16;
       border-radius: 18px;
-      padding: 30px 24px;
+      padding: 28px 22px;
       text-align: left;
       box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
       border: 1px solid rgba(212, 175, 55, 0.45);
@@ -886,36 +891,103 @@
       font-family: 'Dancing Script', cursive;
       font-size: 30px;
       color: #9f1239;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
     }
 
     .letter-body p {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 20px;
-      line-height: 1.65;
+      font-size: 19.5px;
+      line-height: 1.6;
       color: #36251c;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
     }
 
     .letter-highlight {
       font-size: 23px !important;
       font-weight: 700;
       color: #9f1239 !important;
-      margin-top: 18px;
+      margin-top: 16px;
     }
 
     .letter-footer {
-      margin-top: 20px;
-      padding-top: 14px;
+      margin-top: 18px;
+      padding-top: 13px;
       border-top: 1px dashed #d6c3a5;
-      font-size: 13px;
+      font-size: 12.5px;
+      line-height: 1.55;
       color: #7c5c43;
       text-align: center;
       font-style: italic;
     }
 
+    /* Digital Lily Bouquet Card */
+    .lily-bouquet-card {
+      display: none;
+      margin-top: 18px;
+      background: linear-gradient(160deg, rgba(255, 251, 244, 0.11), rgba(245, 208, 97, 0.08));
+      border: 1px solid rgba(245, 208, 97, 0.38);
+      backdrop-filter: blur(12px);
+      border-radius: 22px;
+      padding: 20px 18px 22px;
+      text-align: center;
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.45);
+      animation: unfoldLetter 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    .lily-bouquet-card.open {
+      display: block;
+    }
+
+    .lily-badge {
+      display: inline-block;
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 1.6px;
+      text-transform: uppercase;
+      color: var(--gold);
+      background: rgba(245, 208, 97, 0.15);
+      padding: 4px 12px;
+      border-radius: 999px;
+      margin-bottom: 8px;
+    }
+
+    .lily-svg-wrap {
+      width: 100%;
+      max-width: 280px;
+      margin: 4px auto 10px;
+      animation: bouquetFloat 3.6s ease-in-out infinite;
+    }
+
+    @keyframes bouquetFloat {
+      0%, 100% { transform: translateY(0px) rotate(-0.6deg); }
+      50% { transform: translateY(-6px) rotate(0.6deg); }
+    }
+
+    .lily-title {
+      font-family: 'Dancing Script', cursive;
+      font-size: 26px;
+      color: #fde68a;
+      margin-bottom: 8px;
+    }
+
+    .lily-apology {
+      font-family: 'Poppins', sans-serif;
+      font-size: 12.8px;
+      line-height: 1.65;
+      color: #f1e8da;
+      background: rgba(0, 0, 0, 0.28);
+      border-radius: 14px;
+      padding: 12px 14px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .lily-apology strong {
+      color: #fde68a;
+      font-weight: 600;
+    }
+
     .replay-btn {
-      margin-top: 20px;
+      margin-top: 18px;
       background: rgba(255, 255, 255, 0.1);
       border: 1px solid rgba(255, 255, 255, 0.25);
       color: #f8fafc;
@@ -999,7 +1071,7 @@
           <h4>📜 Cute Little Rules:</h4>
           <ul>
             <li>🔒 <span>Only the <strong>correct answer</strong> unlocks the next slide.</span></li>
-            <li>😘 <span>Wrong answers come with <strong>playful penalties</strong> (kisses, bike rides & treats!).</span></li>
+            <li>😘 <span>Wrong answers come with <strong>playful penalties</strong> (kisses, long bike rides & a treat!).</span></li>
             <li>🎵 <span>Turn up your volume for a little background vibe.</span></li>
           </ul>
         </div>
@@ -1015,7 +1087,7 @@
         <div class="penalty-bar">
           <span class="penalty-chip" id="chipKiss" title="Kisses Owed">😘 <span id="cntKiss">0</span></span>
           <span class="penalty-chip" id="chipBike" title="Long Bike Rides Owed">🏍️ <span id="cntBike">0</span></span>
-          <span class="penalty-chip" id="chipTreat" title="Treats Owed">🍫 <span id="cntTreat">0</span></span>
+          <span class="penalty-chip" id="chipTreat" title="Treat Owed">🍫 <span id="cntTreat">0</span></span>
         </div>
       </div>
 
@@ -1051,7 +1123,7 @@
 
         <div class="bill-row">
           <div class="bill-label">
-            <strong>Pending Kiss (Original Deal)</strong>
+            <strong>Pending Kiss #1 (Name Deal)</strong>
             <small>Because I guessed your name right</small>
           </div>
           <span class="bill-val">1 Kiss 😘</span>
@@ -1059,10 +1131,10 @@
 
         <div class="bill-row">
           <div class="bill-label">
-            <strong>7-Day Wake-Up Challenge</strong>
-            <small>Early morning suffering completed</small>
+            <strong>7-Day Wake-Up Challenge (Ongoing)</strong>
+            <small>Don't forget! Completing the 7 days unlocks your phone # &amp; a <strong>separate kiss</strong> — already making it 2 kisses! 😉</small>
           </div>
-          <span class="bill-val unlocked">Phone # Unlocked 📱</span>
+          <span class="bill-val ongoing">+1 Kiss &amp; # ⏰</span>
         </div>
 
         <div class="bill-row">
@@ -1091,8 +1163,8 @@
 
         <div class="bill-row">
           <div class="bill-label">
-            <strong>Next Treats By You</strong>
-            <small>Foodie tax applied</small>
+            <strong>Next Treat By You</strong>
+            <small>Chocolate memory tax</small>
           </div>
           <span class="bill-val" id="billTreat">0</span>
         </div>
@@ -1162,7 +1234,7 @@
         </button>
       </div>
 
-      <!-- STAGE 4: CINEMATIC 3D WAX-SEAL LOVE LETTER -->
+      <!-- STAGE 4: CINEMATIC 3D WAX-SEAL LOVE LETTER + LILY BOUQUET -->
       <div id="finaleStage4" class="finale-stage">
         <p class="envelope-prompt" id="envelopePrompt">Tap the wax seal to open your letter 💌</p>
 
@@ -1182,7 +1254,166 @@
               <p class="letter-highlight">And that person is YOU. ❤️</p>
             </div>
             <div class="letter-footer">
-              Now don't forget my pending kiss & the settlement bill 😉✨
+              And don't forget — the kiss for guessing your name + the separate kiss once I complete the 7-day wake-up challenge (that's already 2 kisses!) plus your quiz bill 😉❤️
+            </div>
+          </div>
+
+          <!-- HANDCRAFTED DIGITAL LILY BOUQUET -->
+          <div class="lily-bouquet-card" id="lilyBouquetCard">
+            <span class="lily-badge">A Little Floral Surprise 🤍</span>
+
+            <div class="lily-svg-wrap">
+              <svg viewBox="0 0 300 310" xmlns="http://www.w3.org/2000/svg" aria-label="Bouquet of Lily Flowers">
+                <defs>
+                  <!-- Soft Petal Gradients -->
+                  <linearGradient id="whiteLily" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="#ffffff"/>
+                    <stop offset="68%" stop-color="#fff1f5"/>
+                    <stop offset="100%" stop-color="#fbcfe8"/>
+                  </linearGradient>
+                  <linearGradient id="blushLily" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="#fff7fa"/>
+                    <stop offset="60%" stop-color="#ffd6e7"/>
+                    <stop offset="100%" stop-color="#f472b6"/>
+                  </linearGradient>
+                  <linearGradient id="paperOuter" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#f5e6d3"/>
+                    <stop offset="100%" stop-color="#d8b994"/>
+                  </linearGradient>
+                  <linearGradient id="paperInner" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="#fff7ed"/>
+                    <stop offset="100%" stop-color="#e7cfb2"/>
+                  </linearGradient>
+                  <linearGradient id="ribbonGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#f43f5e"/>
+                    <stop offset="100%" stop-color="#9f1239"/>
+                  </linearGradient>
+                  <radialGradient id="lilyGlow" cx="50%" cy="42%" r="50%">
+                    <stop offset="0%" stop-color="rgba(253, 230, 138, 0.35)"/>
+                    <stop offset="100%" stop-color="rgba(253, 230, 138, 0)"/>
+                  </radialGradient>
+
+                  <!-- Reusable White Lily Blossom -->
+                  <g id="lilyFlowerWhite">
+                    <!-- Back 3 petals -->
+                    <path d="M0 0 C-14 -14, -15 -34, 0 -44 C15 -34, 14 -14, 0 0 Z" fill="url(#whiteLily)" stroke="#f9a8d4" stroke-width="0.7" transform="rotate(30)"/>
+                    <path d="M0 0 C-14 -14, -15 -34, 0 -44 C15 -34, 14 -14, 0 0 Z" fill="url(#whiteLily)" stroke="#f9a8d4" stroke-width="0.7" transform="rotate(150)"/>
+                    <path d="M0 0 C-14 -14, -15 -34, 0 -44 C15 -34, 14 -14, 0 0 Z" fill="url(#whiteLily)" stroke="#f9a8d4" stroke-width="0.7" transform="rotate(270)"/>
+                    <!-- Front 3 petals -->
+                    <path d="M0 0 C-15 -14, -16 -36, 0 -47 C16 -36, 15 -14, 0 0 Z" fill="url(#whiteLily)" stroke="#fbcfe8" stroke-width="0.8" transform="rotate(-30)"/>
+                    <path d="M0 0 C-15 -14, -16 -36, 0 -47 C16 -36, 15 -14, 0 0 Z" fill="url(#whiteLily)" stroke="#fbcfe8" stroke-width="0.8" transform="rotate(90)"/>
+                    <path d="M0 0 C-15 -14, -16 -36, 0 -47 C16 -36, 15 -14, 0 0 Z" fill="url(#whiteLily)" stroke="#fbcfe8" stroke-width="0.8" transform="rotate(210)"/>
+                    <!-- Subtle petal center veins & freckles -->
+                    <circle cx="0" cy="0" r="6" fill="#fef08a" opacity="0.85"/>
+                    <!-- Delicate Stamens -->
+                    <line x1="0" y1="0" x2="-10" y2="-16" stroke="#a3e635" stroke-width="1.2"/>
+                    <line x1="0" y1="0" x2="11" y2="-14" stroke="#a3e635" stroke-width="1.2"/>
+                    <line x1="0" y1="0" x2="0" y2="-20" stroke="#a3e635" stroke-width="1.2"/>
+                    <line x1="0" y1="0" x2="-12" y2="8" stroke="#a3e635" stroke-width="1.2"/>
+                    <line x1="0" y1="0" x2="12" y2="9" stroke="#a3e635" stroke-width="1.2"/>
+                    <ellipse cx="-10" cy="-16" rx="2.6" ry="1.5" fill="#d97706" transform="rotate(-30 -10 -16)"/>
+                    <ellipse cx="11" cy="-14" rx="2.6" ry="1.5" fill="#d97706" transform="rotate(30 11 -14)"/>
+                    <ellipse cx="0" cy="-20" rx="2.6" ry="1.5" fill="#ea580c"/>
+                    <ellipse cx="-12" cy="8" rx="2.5" ry="1.5" fill="#d97706" transform="rotate(20 -12 8)"/>
+                    <ellipse cx="12" cy="9" rx="2.5" ry="1.5" fill="#d97706" transform="rotate(-20 12 9)"/>
+                  </g>
+
+                  <!-- Reusable Blush-Pink Lily Blossom -->
+                  <g id="lilyFlowerPink">
+                    <path d="M0 0 C-14 -14, -15 -34, 0 -43 C15 -34, 14 -14, 0 0 Z" fill="url(#blushLily)" stroke="#f472b6" stroke-width="0.7" transform="rotate(0)"/>
+                    <path d="M0 0 C-14 -14, -15 -34, 0 -43 C15 -34, 14 -14, 0 0 Z" fill="url(#blushLily)" stroke="#f472b6" stroke-width="0.7" transform="rotate(120)"/>
+                    <path d="M0 0 C-14 -14, -15 -34, 0 -43 C15 -34, 14 -14, 0 0 Z" fill="url(#blushLily)" stroke="#f472b6" stroke-width="0.7" transform="rotate(240)"/>
+                    <path d="M0 0 C-15 -14, -16 -36, 0 -46 C16 -36, 15 -14, 0 0 Z" fill="url(#blushLily)" stroke="#fbcfe8" stroke-width="0.8" transform="rotate(60)"/>
+                    <path d="M0 0 C-15 -14, -16 -36, 0 -46 C16 -36, 15 -14, 0 0 Z" fill="url(#blushLily)" stroke="#fbcfe8" stroke-width="0.8" transform="rotate(180)"/>
+                    <path d="M0 0 C-15 -14, -16 -36, 0 -46 C16 -36, 15 -14, 0 0 Z" fill="url(#blushLily)" stroke="#fbcfe8" stroke-width="0.8" transform="rotate(300)"/>
+                    <circle cx="0" cy="0" r="6" fill="#fde047" opacity="0.85"/>
+                    <line x1="0" y1="0" x2="-9" y2="-15" stroke="#84cc16" stroke-width="1.2"/>
+                    <line x1="0" y1="0" x2="10" y2="-13" stroke="#84cc16" stroke-width="1.2"/>
+                    <line x1="0" y1="0" x2="0" y2="-18" stroke="#84cc16" stroke-width="1.2"/>
+                    <line x1="0" y1="0" x2="-10" y2="9" stroke="#84cc16" stroke-width="1.2"/>
+                    <line x1="0" y1="0" x2="10" y2="9" stroke="#84cc16" stroke-width="1.2"/>
+                    <ellipse cx="-9" cy="-15" rx="2.5" ry="1.4" fill="#b45309"/>
+                    <ellipse cx="10" cy="-13" rx="2.5" ry="1.4" fill="#b45309"/>
+                    <ellipse cx="0" cy="-18" rx="2.5" ry="1.4" fill="#d97706"/>
+                    <ellipse cx="-10" cy="9" rx="2.4" ry="1.4" fill="#b45309"/>
+                    <ellipse cx="10" cy="9" rx="2.4" ry="1.4" fill="#b45309"/>
+                  </g>
+                </defs>
+
+                <!-- Soft Golden Aura Behind Bouquet -->
+                <circle cx="150" cy="130" r="125" fill="url(#lilyGlow)"/>
+
+                <!-- Back Bouquet Wrapping Cone -->
+                <polygon points="62,146 150,276 238,146 196,112 150,126 104,112" fill="url(#paperInner)" stroke="#e2c39d" stroke-width="1.5"/>
+
+                <!-- Lush Green Lily Leaves & Stems -->
+                <g stroke="#15803d" stroke-linecap="round">
+                  <path d="M150 265 Q122 190 92 108" fill="none" stroke-width="3.5"/>
+                  <path d="M150 265 Q148 180 150 86" fill="none" stroke-width="3.8"/>
+                  <path d="M150 265 Q176 190 210 108" fill="none" stroke-width="3.5"/>
+                  <path d="M150 265 Q132 200 112 150" fill="none" stroke-width="3.2"/>
+                  <path d="M150 265 Q168 200 188 150" fill="none" stroke-width="3.2"/>
+                </g>
+
+                <!-- Elegant Long Lily Leaves -->
+                <path d="M118 175 C78 150, 56 122, 54 92 C78 108, 102 132, 124 166 Z" fill="#16a34a" opacity="0.92"/>
+                <path d="M182 175 C222 150, 244 122, 246 92 C222 108, 198 132, 176 166 Z" fill="#16a34a" opacity="0.92"/>
+                <path d="M136 168 C104 122, 92 78, 102 48 C122 76, 134 114, 146 162 Z" fill="#22c55e" opacity="0.88"/>
+                <path d="M164 168 C196 122, 208 78, 198 48 C178 76, 166 114, 154 162 Z" fill="#22c55e" opacity="0.88"/>
+                <path d="M105 186 C72 172, 54 156, 46 138 C72 142, 94 156, 114 178 Z" fill="#15803d"/>
+                <path d="M195 186 C228 172, 246 156, 254 138 C228 142, 206 156, 186 178 Z" fill="#15803d"/>
+
+                <!-- Lily Buds (Top Accents) -->
+                <g transform="translate(115, 58) rotate(-22)">
+                  <path d="M0 0 C-7 -10, -6 -24, 0 -30 C6 -24, 7 -10, 0 0 Z" fill="#fff1f5" stroke="#f9a8d4" stroke-width="0.9"/>
+                  <path d="M0 0 C-4 -6, -3 -12, 0 -16 C3 -12, 4 -6, 0 0 Z" fill="#22c55e"/>
+                </g>
+                <g transform="translate(186, 56) rotate(24)">
+                  <path d="M0 0 C-7 -10, -6 -24, 0 -30 C6 -24, 7 -10, 0 0 Z" fill="#ffe4ef" stroke="#f472b6" stroke-width="0.9"/>
+                  <path d="M0 0 C-4 -6, -3 -12, 0 -16 C3 -12, 4 -6, 0 0 Z" fill="#22c55e"/>
+                </g>
+
+                <!-- 6 Full Blooming Lilies Arranged Like a Lush Bouquet -->
+                <use href="#lilyFlowerPink" transform="translate(95, 112) scale(0.92) rotate(-14)"/>
+                <use href="#lilyFlowerPink" transform="translate(206, 114) scale(0.92) rotate(16)"/>
+                <use href="#lilyFlowerWhite" transform="translate(150, 84) scale(1.04)"/>
+                <use href="#lilyFlowerWhite" transform="translate(112, 152) scale(0.95) rotate(-8)"/>
+                <use href="#lilyFlowerWhite" transform="translate(190, 154) scale(0.95) rotate(10)"/>
+                <use href="#lilyFlowerPink" transform="translate(150, 146) scale(1.02) rotate(6)"/>
+
+                <!-- Tiny Baby's Breath & Golden Sparkles -->
+                <g fill="#ffffff" opacity="0.92">
+                  <circle cx="72" cy="126" r="2.8"/><circle cx="65" cy="134" r="2.2"/><circle cx="79" cy="136" r="2"/>
+                  <circle cx="228" cy="126" r="2.8"/><circle cx="235" cy="135" r="2.2"/><circle cx="221" cy="137" r="2"/>
+                  <circle cx="132" cy="48" r="2.4"/><circle cx="169" cy="46" r="2.4"/>
+                </g>
+                <g fill="#fde047">
+                  <text x="48" y="82" font-size="14">✦</text>
+                  <text x="242" y="84" font-size="14">✦</text>
+                  <text x="145" y="28" font-size="13">✨</text>
+                </g>
+
+                <!-- Front Bouquet Wrap Fold -->
+                <path d="M78 176 L150 212 L222 176 L176 284 Q150 296 124 284 Z" fill="url(#paperOuter)" stroke="#caa67c" stroke-width="1.5"/>
+                <path d="M78 176 L150 212 L138 286 L124 284 Z" fill="#ebd3b5" opacity="0.55"/>
+                <path d="M222 176 L150 212 L162 286 L176 284 Z" fill="#d3b18a" opacity="0.45"/>
+
+                <!-- Satin Crimson Ribbon & Bow -->
+                <rect x="122" y="232" width="56" height="12" rx="6" fill="url(#ribbonGrad)"/>
+                <path d="M150 238 C132 222, 114 230, 122 246 C130 256, 144 246, 150 240 Z" fill="#e11d48" stroke="#fda4af" stroke-width="0.8"/>
+                <path d="M150 238 C168 222, 186 230, 178 246 C170 256, 156 246, 150 240 Z" fill="#e11d48" stroke="#fda4af" stroke-width="0.8"/>
+                <path d="M146 242 L130 278 L140 274 L150 244 Z" fill="#be123c"/>
+                <path d="M154 242 L170 278 L160 274 L150 244 Z" fill="#be123c"/>
+                <circle cx="150" cy="239" r="6" fill="#f43f5e" stroke="#fde68a" stroke-width="1"/>
+              </svg>
+            </div>
+
+            <div class="lily-title">A Bouquet of Lilies For You 🤍</div>
+            <div class="lily-apology">
+              You once hinted about <strong>lilies</strong>… I searched everywhere online to get them for you, but couldn't find any.
+              So for now, I'm giving you this little <strong>digital bouquet</strong> — <em>sorry for that!</em> 🌸
+              <br><br>
+              Real ones are definitely waiting for you soon. 🤍✨
             </div>
           </div>
         </div>
@@ -1231,9 +1462,7 @@
           musicBtn.textContent = '🎵';
           musicBtn.classList.add('playing');
           fadeVolume(targetVolume, 1600);
-        }).catch(() => {
-          // Mobile browser requires user tap; button remains available
-        });
+        }).catch(() => {});
       } else {
         fadeVolume(targetVolume, 1200);
       }
@@ -1422,7 +1651,7 @@
       </svg>`
     ];
 
-    // ================= QUIZ DATA (15 QUESTIONS + PENALTIES) =================
+    // ================= QUIZ DATA (15 QUESTIONS: KISSES & BIKE RIDES, ONLY 1 TREAT) =================
     const questions = [
       {
         q: "When did we first match on the dating app?",
@@ -1474,8 +1703,8 @@
         options: ["Hello darling", "Hey bbz", "Hi sweetheart", "Hey beautiful"],
         correct: 1,
         caption: "Iconic opening line 😏",
-        penaltyType: "treat",
-        wrongMsg: "Nope! Wrong guess — the next treat is officially on you 🍫",
+        penaltyType: "cheekKiss",
+        wrongMsg: "Nope! Forgot my smooth opener? Penalty: +1 Cheek Kiss 😘",
         rightMsg: "Haha yes — 'Hey bbz'! Smooth, right? 😉"
       },
       {
@@ -1483,9 +1712,9 @@
         options: ["8848265090", "9848265090", "8848265091", "8848265099"],
         correct: 0,
         caption: "Save it by heart 📱",
-        penaltyType: "treat",
-        wrongMsg: "Wrong number! That's a +1 Treat penalty — next café bill is yours ☕",
-        rightMsg: "Correct! Now waiting for yours after the 7-day challenge 😉"
+        penaltyType: "extraKiss",
+        wrongMsg: "Wrong number?! That's a +1 Extra Kiss penalty 😘",
+        rightMsg: "Correct! Can't wait to unlock yours once I finish the 7-day challenge 😉"
       },
       {
         q: "How many contacts are there in my Telegram?",
@@ -1493,7 +1722,7 @@
         correct: 0,
         caption: "Exclusive VIP list ⭐",
         penaltyType: "bikeRide",
-        wrongMsg: "Easy question! It's ONLY 1 (you!). Penalty: Long Bike Ride 🏍️",
+        wrongMsg: "Easy question! It's ONLY 1 (you!). Penalty: +1 Long Bike Ride 🏍️",
         rightMsg: "Just 1 — and you already know who that is ❤️"
       },
       {
@@ -1501,8 +1730,8 @@
         options: ["Dairy Milk Silk", "KitKat Premium Delights Hazelnut", "Ferrero Rocher", "Toblerone"],
         correct: 1,
         caption: "Way to a foodie's heart 🍫",
-        penaltyType: "bikeRide",
-        wrongMsg: "A chocolate lover forgetting this?! Easy one missed — Long Bike Ride penalty 🏍️",
+        penaltyType: "treat",
+        wrongMsg: "A chocolate lover forgetting this?! Penalty: Next Treat is officially by YOU! 🍫🍔",
         rightMsg: "KitKat Premium Delights Hazelnut! Instant impression 😎"
       },
       {
@@ -1510,8 +1739,8 @@
         options: ["Black and White Checks", "Blue and Grey Check", "Blue and White Stripes", "Grey and Black"],
         correct: 1,
         caption: "First date memory 👔",
-        penaltyType: "treat",
-        wrongMsg: "You weren't looking at my shirt! Penalty: Next treat is by you 🍔",
+        penaltyType: "cheekKiss",
+        wrongMsg: "You weren't looking at my shirt! Penalty: +1 Kiss on the cheek 😘",
         rightMsg: "Blue and Grey Check! Look at that attention to detail 😍"
       },
       {
@@ -1528,9 +1757,9 @@
         options: ["21 November 2026", "22 November 2026", "23 November 2026", "24 November 2026"],
         correct: 2,
         caption: "Fighting my morning laziness ⏰",
-        penaltyType: "treat",
-        wrongMsg: "Forgetting my early morning sacrifice?! Next treat is on you 🍰",
-        rightMsg: "23 November 2026! Only for you I'd wake up early 😅"
+        penaltyType: "bikeRide",
+        wrongMsg: "Forgetting my early morning sacrifice?! Penalty: +1 Long Bike Ride with me 🏍️",
+        rightMsg: "23 November 2026! Going strong — and remember, completing the 7 days means a separate kiss 😉"
       },
       {
         q: "Which bike do I own?",
@@ -1538,7 +1767,7 @@
         correct: 1,
         caption: "Our ride partner 🏍️",
         penaltyType: "bikeRide",
-        wrongMsg: "Such an easy one! Clearly you need a Long Bike Ride on my Bullet Classic 350 🏍️",
+        wrongMsg: "Such an easy one! Clearly you owe me a Long Bike Ride on my Bullet Classic 350 🏍️",
         rightMsg: "Bullet Classic 350! Next ride with you on the back 😉"
       },
       {
@@ -1546,8 +1775,8 @@
         options: ["175 cm", "178 cm", "180 cm", "182 cm"],
         correct: 1,
         caption: "Tall enough? 📏",
-        penaltyType: "treat",
-        wrongMsg: "Close, maybe! Still wrong — next treat is on you 🍦",
+        penaltyType: "extraKiss",
+        wrongMsg: "Close, maybe! Still wrong — Penalty: +1 Extra Kiss 😘",
         rightMsg: "178 cm! Nailed it 🎯"
       },
       {
@@ -1672,14 +1901,17 @@
       document.getElementById('billCheek').textContent = `${penalties.cheekKiss} Cheek Kiss${penalties.cheekKiss === 1 ? '' : 'es'} 😘`;
       document.getElementById('billExtraKiss').textContent = `${penalties.extraKiss} Extra Kiss${penalties.extraKiss === 1 ? '' : 'es'} 😘`;
       document.getElementById('billBike').textContent = `${penalties.bikeRide} Long Ride${penalties.bikeRide === 1 ? '' : 's'} 🏍️`;
-      document.getElementById('billTreat').textContent = `${penalties.treat} Treat${penalties.treat === 1 ? '' : 's'} 🍫`;
+      document.getElementById('billTreat').textContent = penalties.treat > 0 ? `1 Treat By You 🍫` : `Saved! (0) 🍫`;
 
-      const totalMistakes = penalties.cheekKiss + penalties.extraKiss + penalties.bikeRide + penalties.treat;
+      const quizKisses = penalties.cheekKiss + penalties.extraKiss;
+      const totalKissesWithDeals = 2 + quizKisses;
+      const totalMistakes = quizKisses + penalties.bikeRide + penalties.treat;
       const summaryEl = document.getElementById('billSummaryNote');
+
       if (totalMistakes === 0) {
-        summaryEl.textContent = "Zero mistakes?! Impressive! Still, that 1 original pending kiss is non-negotiable 😉❤️";
+        summaryEl.innerHTML = "Zero quiz mistakes?! Impressive! 👏<br>Still, don't forget: <strong>1 Name Deal Kiss + 1 Separate Kiss</strong> once I finish the 7-day wake-up challenge = <strong>2 Kisses</strong> already pending 😉❤️";
       } else {
-        summaryEl.textContent = `Total ${totalMistakes} playful penalties + 1 original pending kiss! Screenshot this bill — no escaping 😉❤️`;
+        summaryEl.innerHTML = `Already <strong>2 Kisses</strong> (Name Deal + Separate 7-Day Challenge Kiss) + <strong>${totalMistakes} quiz penalties</strong> (${totalKissesWithDeals} total kisses, ${penalties.bikeRide} long ride${penalties.bikeRide === 1 ? '' : 's'}${penalties.treat ? ', 1 treat' : ''})! Screenshot this bill 😉❤️`;
       }
 
       showScreen('billScreen');
@@ -1691,7 +1923,7 @@
 
     function startGrandFinale() {
       document.body.classList.add('dark-finale');
-      playBgMusic(0.65); // Gently swell music for the cinematic reveal
+      playBgMusic(0.65);
       startGoldParticles();
       showScreen('finaleScreen');
       goToFinaleStage(1);
@@ -1700,6 +1932,7 @@
     function goToFinaleStage(stageNum) {
       document.querySelectorAll('.finale-stage').forEach(s => s.classList.remove('active'));
       document.getElementById(`finaleStage${stageNum}`).classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
 
       if (stageNum === 1) {
         runStage1Intro();
@@ -1753,12 +1986,14 @@
     function resetEnvelope() {
       const closed = document.getElementById('envelopeClosed');
       const letter = document.getElementById('letterPaper');
+      const bouquet = document.getElementById('lilyBouquetCard');
       const prompt = document.getElementById('envelopePrompt');
       const replay = document.getElementById('replayBtn');
 
       closed.style.display = 'flex';
       closed.classList.remove('opening');
       letter.classList.remove('open');
+      bouquet.classList.remove('open');
       prompt.style.display = 'block';
       replay.style.display = 'none';
     }
@@ -1766,6 +2001,7 @@
     function openLoveLetter() {
       const closed = document.getElementById('envelopeClosed');
       const letter = document.getElementById('letterPaper');
+      const bouquet = document.getElementById('lilyBouquetCard');
       const prompt = document.getElementById('envelopePrompt');
       const replay = document.getElementById('replayBtn');
 
@@ -1774,8 +2010,12 @@
         closed.style.display = 'none';
         prompt.style.display = 'none';
         letter.classList.add('open');
-        replay.style.display = 'inline-block';
         launchConfetti(110);
+
+        setTimeout(() => {
+          bouquet.classList.add('open');
+          replay.style.display = 'inline-block';
+        }, 700);
       }, 520);
     }
 
